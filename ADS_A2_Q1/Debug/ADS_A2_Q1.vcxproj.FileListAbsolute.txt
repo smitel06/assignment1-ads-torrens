@@ -1,2 +1,4 @@
 C:\Users\Eliah\Desktop\Ads Assessment 2\ADS_A2_Q1\Debug\ADS_A2_Q1.exe
 C:\Users\Eliah\Desktop\Ads Assessment 2\ADS_A2_Q1\Debug\ADS_A2_Q1.pdb
+C:\Users\Eliah\Desktop\Ads Assessment 2\ADS Assignment1\ADS_A2_Q1\Debug\ADS_A2_Q1.exe
+C:\Users\Eliah\Desktop\Ads Assessment 2\ADS Assignment1\ADS_A2_Q1\Debug\ADS_A2_Q1.pdb
