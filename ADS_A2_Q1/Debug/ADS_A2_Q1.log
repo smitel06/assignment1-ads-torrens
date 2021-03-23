@@ -1,0 +1,3 @@
+﻿  Main.cpp
+C:\Users\Eliah\Desktop\Ads Assessment 2\ADS_A2_Q1\Main.cpp(11,1): warning C4326: return type of 'main' should be 'int' instead of 'void'
+  ADS_A2_Q1.vcxproj -> C:\Users\Eliah\Desktop\Ads Assessment 2\ADS_A2_Q1\Debug\ADS_A2_Q1.exe
