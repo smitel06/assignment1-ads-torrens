@@ -8,7 +8,7 @@ using namespace std;
 //functions
 
 //sorts by swapping two values
-void bubbleSort(vector<int> &numbers, int vectorSize)
+void bubbleSort(vector<int>& numbers, int vectorSize)
 {
 	bool sorted = false;//loop while not sorted
 	while (!sorted)
@@ -30,7 +30,7 @@ void bubbleSort(vector<int> &numbers, int vectorSize)
 	}
 }
 
-void insertionSort(vector<int> &numbers, int vectorSize)
+void insertionSort(vector<int>& numbers, int vectorSize)
 {
 	for (int i = 1; i <= vectorSize - 1; i++)
 	{
@@ -58,128 +58,115 @@ void main()
 	//record start time for timing
 	chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 
-	bool exitProgram = false;
 	bool isError = false;
 	string errorReport;
+	int ascOrDesc; //ascending or descending order 0 ascending, 1 descending
+	int algType; //easy or hard algorithm 0 being almost sorted 1 being unsorted
+	int elementAmount; //number of data elements to sort
+	vector<int> dataElements; //vector of line 4 data elements
 
-	//while error is false run program
-	while (exitProgram != true)
+	ifstream inputFile("input-a1q1.txt");
+	//read first line in file
+	inputFile >> ascOrDesc;
+	//read second line in file
+	inputFile >> algType;
+	//read third line in file
+	inputFile >> elementAmount;
+	//count number of elements in last line
+	int numCount = 0;
+	int i;
+	while (inputFile >> i)
 	{
-		int ascOrDesc; //ascending or descending order 0 ascending, 1 descending
-		int algType; //easy or hard algorithm 0 being almost sorted 1 being unsorted
-		int elementAmount; //number of data elements to sort
-		vector<int> dataElements; //vector of line 4 data elements
+		numCount++;
+	}
 
-		//read first line in file
-		ifstream inputFile("input-a1q1.txt");
-		inputFile >> ascOrDesc;
-		//read second line in file
-		inputFile >> algType;
-		//read third line in file
-		inputFile >> elementAmount;
-		//count number of elements in last line
-		int numCount = 0;
-		int i;
-		while (inputFile >> i)
-		{
-			numCount++;
-		}
+	inputFile.close();//close the file we are reading to reset 
+	inputFile.open("input-a1q1.txt");//reopen to go back to start
+	int temp;
+	for (int i = 1; i <= 3; i++)
+	{
+		inputFile >> temp;
+	}
 
-		inputFile.close();//close the file we are reading to reset 
-		inputFile.open("input-a1q1.txt");//reopen to go back to start
+	//add elements to be sorted into vector using a loop
+	for (int i = 1; i <= elementAmount; i++)
+	{
 		int temp;
-		for (int i = 1; i <= 3; i++)
-		{
-			inputFile >> temp;
-		}
+		inputFile >> temp;
+		dataElements.push_back(temp);
+	}
 
-		//add elements to be sorted into vector using a loop
-		for (int i = 1; i <= elementAmount; i++)
-		{
-			int temp;
-			inputFile >> temp;
-			dataElements.push_back(temp);
-		}
+	//error reports
+	//line 1 error report
+	if (ascOrDesc != 0 && ascOrDesc != 1)
+	{
+		errorReport = "Error: The first line of the file contained an invalid number!";
+		isError = true;
+	}
+	//line 2 error
+	if (algType != 0 && algType != 1)
+	{
+		errorReport = "Error: The second line of the file contained an invalid number!";
+		isError = true;
+	}
+	//line 3 error
+	if (elementAmount < 0)
+	{
+		errorReport = "Error: The amount of data elements cannot be a negative number";
+		isError = true;
+	}
+	//line 4 error
+	if (elementAmount != numCount)
+	{
+		errorReport = "Error: The amount of data elements to be sorted is incorrect!";
+		isError = true;
+	}
+	//check for error
 
-		//error reports
-		//line 1 error report
-		if (ascOrDesc != 0 && ascOrDesc != 1)
-		{
-			errorReport = "Error: The first line of the file contained an invalid number!";
-			isError = true;
-		}
-		//line 2 error
-		if (algType != 0 && algType != 1)
-		{
-			errorReport = "Error: The second line of the file contained an invalid number!";
-			isError = true;
-		}
-		//line 3 error
-		if (elementAmount < 0)
-		{
-			errorReport = "Error: The amount of data elements cannot be a negative number";
-			isError = true;
-		}
-		//line 4 error
-		if (elementAmount != numCount)
-		{
-			errorReport = "Error: The amount of data elements to be sorted is incorrect!";
-			isError = true;
-		}
-		//check for error
-		if (isError)
-		{
-			exitProgram = true;
-		}
+	//if type of algorithm requested is partially sorted use bubblesort
+	//else use insertion sort
+	if (algType == 0)
+	{
+		bubbleSort(dataElements, elementAmount + 1);
+	}
+	else
+	{
+		insertionSort(dataElements, elementAmount);
+	}
 
-		//if type of algorithm requested is partially sorted use bubblesort
-		//else use insertion sort
-		if (algType == 0) 
+	//recording end time for timer
+	chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+
+	if (isError == false)//checks for error before writing to file
+	{
+		//ascending or descending order conditional
+		//open output file to write into
+		ofstream outputFile;
+		outputFile.open("output-a1q1.txt");
+		//displays time in milliseconds for program
+		outputFile << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << endl;
+
+
+		if (ascOrDesc == 1)
 		{
-			bubbleSort(dataElements, elementAmount + 1);
+			for (int i = 0; i <= elementAmount - 1; i++)
+			{
+				outputFile << dataElements[i] << " ";
+			}
 		}
 		else
 		{
-			insertionSort(dataElements, elementAmount);
-		}
-		
-		//recording end time for timer
-		chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
-
-		if (isError == false)//checks for error before writing to file
-		{
-			//ascending or descending order conditional
-			//open output file to write into
-			ofstream outputFile;
-			outputFile.open("output-a1q1.txt");
-			//displays time in milliseconds for program
-			outputFile << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << endl;
-
-
-			if (ascOrDesc == 1)
+			for (int i = elementAmount - 1; i >= 0; i--)
 			{
-				for (int i = 0; i <= elementAmount - 1; i++)
-				{
-					outputFile << dataElements[i] << " ";
-				}
-			}
-			else
-			{
-				for (int i = elementAmount - 1; i >= 0; i--)
-				{
-					outputFile << dataElements[i] << " ";
-				}
+				outputFile << dataElements[i] << " ";
 			}
 		}
-		//exit program once algorithm has finished
-		exitProgram = true;
 	}
-
+	//exit program once algorithm has finished
 	if (isError == true)
 	{
 		cout << errorReport << endl;
 	}
-
-
+	
 	system("pause");
 }
